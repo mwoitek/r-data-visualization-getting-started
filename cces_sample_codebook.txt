@@ -9,7 +9,7 @@ region: In which census region do you live?
 gender: Are you...
 	1 Male
 	2 Female
-	
+
 educ: What is the highest level of education you have completed?
 	1 No high school
 	2 High school graduate
@@ -31,7 +31,7 @@ race: What racial or ethnic group best describes you?
 	6 Mixed
 	7 Other
 	8 Middle Eastern
-	
+
 hispanic: Are you of Spanish, Latino, or Hispanic origin or descent?
 	1 Yes
 	2 No
@@ -63,7 +63,7 @@ pid7: Generally speaking, do you think of yourself as a...?
 	5 Lean Republican
 	6 Not very strong Republican
 	7 Strong Republican
-	
+
 ideo5: In general, how would you describe your own political viewpoint?
 	1 Very liberal
 	2 Liberal
@@ -82,8 +82,8 @@ newsint: Some people seem to follow what's going on in government and public aff
 	2 Some of the time
 	3 Only now and then
 	4 Hardly at all
-	
-faminc_new: Thinking back over the last year, what was your family’s annual income?	
+
+faminc_new: Thinking back over the last year, what was your family’s annual income?
  1 Less than $10,000
  2 $10,000 - $19,999
  3 $20,000 - $29,999
@@ -105,15 +105,15 @@ union: Are you a member of a labor union?
 1 Yes, I am currently a member of a labor union
 2 I formerly was a member of a labor union
 3 I am not now, nor have I been, a member of a labor union
-	
-	
+
+
 investor: Do you personally (or jointly with a spouse), have any money invested in the stock market
 right now, either in an individual stock or in a mutual fund?
  1 Yes
  2 No
-	
 
-	
+
+
 CC18_308a Job approval – President Trump
 Do you approve or disapprove of the way each is doing their job...
 1 Strongly approve
@@ -121,9 +121,9 @@ Do you approve or disapprove of the way each is doing their job...
 3 Somewhat disapprove
 4 Strongly disapprove
 
-	
 
-	
+
+
 CC18_310a Party Recall + Name Recognition - Governor
 Please indicate whether you’ve heard of this person and if so which party he or she is affiliated
 with...
@@ -189,12 +189,3 @@ Congress considered many changes in tax law over the past two years. Do you supp
 oppose each of the following?
 1 Support
 2 Oppose
-
-
-	
-	
-	
-	
-	
-	
-	
