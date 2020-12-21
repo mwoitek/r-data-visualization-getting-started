@@ -1,0 +1,226 @@
+---
+title: "Final Report Exercise"
+author: "Marcio Woitek"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+dat <- drop_na(read.csv("cces_sample_coursera.csv"))
+```
+
+
+# Problem 1
+
+Create a vector of five numbers of your choice between 0 and 10, save that
+vector to an object, and use the sum() function to calculate the sum of the
+numbers.
+
+
+```{r problem1}
+# Create a vector of 5 numbers:
+nums <- c(6, 9, 1, 4, 0)
+
+# Calculate the sum of the numbers:
+sum(nums)
+```
+
+
+# Problem 2
+
+Create a data frame that includes two columns. One column must have the numbers
+1 through 5, and the other column must have the numbers 6 through 10. The first
+column must be named "alpha" and the second column must be named "beta". Name
+the object "my_dat". Display the data.
+
+
+```{r problem2}
+# Create the data frame as specified:
+my_dat <- as.data.frame(cbind(1:5, 6:10))
+colnames(my_dat) <- c("alpha", "beta")
+
+# Display the data frame:
+my_dat
+```
+
+
+# Problem 3
+
+Using the data frame created in Problem 2, use the summary() command to create
+a five-number summary for the column named "beta".
+
+
+```{r problem3}
+# Create the summary:
+summary(my_dat$beta)
+```
+
+
+# Problem 4
+
+There is code for importing the example survey data that will run automatically
+in the setup chunk for this report. Using that data, make a boxplot of the
+family income column using the base R function (not a figure drawn using
+qplot). Include your name in the title for the plot. Relabel that x-axis as
+"Family Income".
+
+
+```{r problem4}
+# Make a boxplot of the family income as specified:
+boxplot(
+    dat$faminc_new,
+    main = "Marcio Woitek's Boxplot of Family Income", # Title
+    xlab = "Family Income" # x-axis label
+)
+```
+
+
+# Problem 5
+
+Using the survey data, filter to subset the survey data so you only have male
+survey respondents who live in the Northwest or Midwest of the United States,
+are married, and identify as being interested in the news most of the time.
+
+Use the str() function to provide information about the resulting dataset.
+
+
+```{r problem5}
+# Filter the survey data:
+filtered_data <- dat %>% filter(
+    .data[["gender"]] == 1, # Male
+    .data[["marstat"]] == 1, # Married
+    .data[["newsint"]] == 1, # Interested in the news most of the time
+    .data[["region"]] < 3 # Live in the Northwest or Midwest
+)
+
+# Display the internal structure of filtered_data:
+str(filtered_data)
+```
+
+
+# Problem 6
+
+Filter the data the same as in Problem 5. Use a R function to create
+a frequency table for the responses for the question asking whether these
+survey respondents are invested in the stock market.
+
+
+```{r problem6}
+# Create the frequency table for the investor column of filtered_data:
+table(filtered_data$investor)
+```
+
+
+# Problem 7
+
+Going back to using all rows in the dataset, create a new column in the data
+using mutate that is equal to either 0, 1, or 2, to reflect whether the
+respondent supports increasing the standard deduction from 12,000 to 25,000,
+supports cutting the corporate income tax rate from 39 to 21 percent, or both.
+Name the column "tax_scale". Display the first twenty elements of the new
+column you create.
+
+
+```{r problem7}
+# Helper function:
+hlpr <- function(col) { return(col %>% recode(`2` = 0L)) }
+
+# Create the tax_scale column:
+dat <- dat %>% mutate(tax_scale = hlpr(dat$CC18_325a) + hlpr(dat$CC18_325d))
+
+# Display the first 20 elements of tax_scale:
+dat$tax_scale[1:20]
+```
+
+
+# Problem 8
+
+Use a frequency table command to show how many 0s, 1s, and 2s are in the column
+you created in Problem 7.
+
+
+```{r problem8}
+# Create the frequency table for the tax_scale column of dat:
+table(dat$tax_scale)
+```
+
+
+# Problem 9
+
+Again using all rows in the original dataset, use summarise and group_by to
+calculate the average (mean) job approval for President Trump in each of the
+four regions listed in the "region" column.
+
+
+```{r problem9, message=FALSE}
+# Calculate the average job approval for President Trump in each region:
+dat %>%
+    group_by(region) %>%
+    summarise(Trump_Approve_Mean = round(mean(CC18_308a), digits = 2))
+```
+
+
+# Problem 10
+
+Again start with all rows in the original dataset, use summarise() to create a
+summary table for survey respondents who are not investors and who have an
+annual family income of between \$40,000 and \$119,999 per year. The table
+should have the mean, median and standard deviations for the importance of
+religion column.
+
+
+```{r problem10}
+dat %>%
+    # Filter the survey data:
+    filter(
+        .data[["faminc_new"]] > 4, # Income greater than or equal to $40,000
+        .data[["faminc_new"]] < 11, # Income less than $120,000
+        .data[["investor"]] == 2 # Non-investors
+    ) %>%
+    # Create the summary table:
+    summarise(
+        "Mean Religion Imp." = mean(pew_religimp),
+        "Median Religion Imp." = median(pew_religimp),
+        "Standard Dev. Religion Imp." = sd(pew_religimp)
+    )
+```
+
+
+# Problem 11
+
+Use kable() and the summarise() function to create a table with one row and
+three columns that provides the mean, median, and standard deviation for the
+column named "faminc_new" in the survey data.
+
+
+```{r problem11}
+# Create the summary table:
+dat %>%
+    summarise(
+        Mean = mean(faminc_new),
+        Median = median(faminc_new),
+        "Std. Dev." = sd(faminc_new)
+    ) %>%
+    kable()
+```
+
+
+# Problem 12
+
+With the survey data, use qplot() to make a histogram of the column named
+"pid7". Change the x-axis label to "Seven Point Party ID" and the y-axis label
+to "Count".
+
+
+```{r problem12, message=FALSE}
+# Make a histogram of the pid7 column:
+qplot(
+    dat$pid7,
+    geom = "histogram",
+    xlab = "Seven-Point Party ID", # x-axis label
+    ylab = "Count" # y-axis label
+)
+```
